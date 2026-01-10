@@ -17,7 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 //Função Tela de Login
@@ -39,8 +42,10 @@ fun LoginScreen(
     ) {
         // Título da tela
         Text(
-            text = "Login",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Acesse sua Conta",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
         // espaço entre os elementos
         Spacer(modifier = Modifier.height(16.dp))
@@ -83,7 +88,8 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth(),
             enabled = !state.isLoading // desativa o botão enquanto esté carregando
 
-        ) {
+        )
+        {
             // se estiver carregando, mostra um loading
             if (state.isLoading) {
                 CircularProgressIndicator(
@@ -95,5 +101,31 @@ fun LoginScreen(
                 Text("Entrar")
             }
         }
+        Spacer(modifier = Modifier.height(6.dp))
+
+        // texto para usuário recuperar a senha (ainda sem ação)
+        Text(
+            text = "Esqueci a Senha",
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 14.sp,
+            modifier = Modifier.fillMaxWidth(),
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        //botão para levar o usuário a tela de cadastro
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Cadastrar")
+
+        }
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen()
 }
