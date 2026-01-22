@@ -36,7 +36,8 @@ import com.nicnicdev.adoreiasalmas.R
 @Composable
 fun LoginScreen(
     // aqui a tela recebe o ViewModel responsavel pela lógica do login
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel(),
+    onCreateAccountClick: () -> Unit // parametro para navegação
 ) {
     //aqui pegamos o estado atual da tela (email, senha, loading, erro )
     //sempre que o estado mudar a tela atualiza sozinha
@@ -46,7 +47,8 @@ fun LoginScreen(
         state = state,
         onEmailChange = loginViewModel::onEmailChange,
         onPasswordChange = loginViewModel::onPasswordChange,
-        onLoginClick = loginViewModel::onLoginClick
+        onLoginClick = loginViewModel::onLoginClick,
+        onCreateAccountClick = onCreateAccountClick // passa pro conteudo
     )
 
 }
@@ -55,7 +57,8 @@ fun LoginContent(
     state: LoginState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
+    onCreateAccountClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -239,7 +242,7 @@ fun LoginContent(
             ) {
                 //botão para levar o usuário a tela de cadastro
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { onCreateAccountClick() },
                     contentPadding = PaddingValues(
                         vertical = 8.dp,
                         horizontal = 20.dp
@@ -279,6 +282,7 @@ fun LoginScreenPreview() {
         ),
         onEmailChange = {},
         onPasswordChange = {},
-        onLoginClick = {}
+        onLoginClick = {},
+        onCreateAccountClick = {}
     )
 }

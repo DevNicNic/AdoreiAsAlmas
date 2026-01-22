@@ -72,6 +72,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.animation:animation")
 
+    // Navigation Compose
+    implementation ("androidx.navigation:navigation-compose:2.7.3")
+
     // Debug / Test
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")

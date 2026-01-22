@@ -22,15 +22,18 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun onEmailChange(email: String) {
-        _state.value = _state.value.copy(email = email)
+        _state.update {
+            it.copy(email = email, errorMessage = null) }
     }
 
     fun onPasswordChange(password: String) {
-        _state.value = _state.value.copy(password = password)
+        _state.update {
+            it.copy(password = password, errorMessage = null) }
     }
 
     fun onConfirmPasswordChange(confirmPassword: String) {
-        _state.value = _state.value.copy(confirmPassword = confirmPassword)
+        _state.update {
+            it.copy(confirmPassword = confirmPassword, errorMessage = null) }
     }
 
     fun onRegisterClick() {
@@ -57,14 +60,17 @@ class RegisterViewModel : ViewModel() {
         _state.update {
             it.copy(isLoading = true, errorMessage = null)
         }
-        viewModelScope.launch {
+
             auth.createUserWithEmailAndPassword(
                 currentState.email,
                 currentState.password
             )
                 .addOnSuccessListener {
                     _state.update {
-                        it.copy(isLoading = false)
+                        it.copy(
+                            isLoading = false,
+                            isSuccess = true // avisa que deu certo
+                        )
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -78,4 +84,4 @@ class RegisterViewModel : ViewModel() {
                 }
         }
     }
-}
+

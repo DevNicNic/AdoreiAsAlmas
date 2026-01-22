@@ -37,16 +37,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nicnicdev.adoreiasalmas.R
+import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 
-//Função Tela de Login
+
 @Composable
 fun RegisterScreen(
-    // aqui a tela recebe o ViewModel responsavel pela lógica do login
-    viewModel: RegisterViewModel = viewModel()
+
+    viewModel: RegisterViewModel = viewModel(),
+    onRegisterSuccess: () -> Unit
 ) {
     //aqui pegamos o estado atual da tela (email, senha, loading, erro )
     //sempre que o estado mudar a tela atualiza sozinha
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(state.isSuccess ) {
+        if (state.isSuccess) {
+            Toast.makeText(
+                context,
+                "Cadatro realizado com sucesso",
+                Toast.LENGTH_SHORT
+            ).show()
+            kotlinx.coroutines.delay(2000) // espera 2 segundos
+            onRegisterSuccess() //volta para o login
+        }
+    }
 
     RegisterContent(
         state = state,
@@ -188,16 +205,16 @@ fun RegisterContent(
 
                 // campo onde o usuáro confirma sua senha
                 OutlinedTextField(
-                    value = state.confirmPassword, //mostra a senha salva no estado
-                    onValueChange = { onConfirmPasswordChange(it) }, // atualiza a senha no ViewModel
+                    value = state.confirmPassword,
+                    onValueChange = { onConfirmPasswordChange(it) },
                     label = { Text("Confirme sua senha", color = Color.White) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 56.dp),
                     singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(), //  esconde os caracteres
+                    visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password //  teclado de senha
+                        keyboardType = KeyboardType.Password
                     ),
                     shape = MaterialTheme.shapes.large,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -210,6 +227,16 @@ fun RegisterContent(
                         cursorColor = Color.White
                     )
                 )
+                if (!state.errorMessage.isNullOrBlank()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = state.errorMessage,
+                        color = Color.Red,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
             }

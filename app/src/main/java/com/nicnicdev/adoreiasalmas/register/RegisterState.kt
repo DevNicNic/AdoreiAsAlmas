@@ -6,5 +6,6 @@ package com.nicnicdev.adoreiasalmas.register
      val password: String = "",
      val confirmPassword: String = "",
      val isLoading: Boolean = false,
-     val errorMessage: String? = null
+     val errorMessage: String? = null,
+     val isSuccess: Boolean = false
  )
