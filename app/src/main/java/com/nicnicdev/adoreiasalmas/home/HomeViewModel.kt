@@ -14,20 +14,20 @@ class HomeViewModel: ViewModel() {
     private fun loadBackCards() {
         val backCard = R.drawable.conselhopretovelho_split_41 // imagem das cartinhas
 
-        val cards = List(40){
-            backCard
+        val cards = List(40) {index ->
+            CardUiModel(
+                id = index,
+                imageRes = backCard
+            )
         }
-        _state.update {
-            it.copy(cards = cards)
-
+        _state.update { currentState ->
+            currentState.copy(cards = cards)
         }
     }
     fun onShuffleCards() {
-        val shuffledCards = _state.value.cards.shuffled()
-
-        _state.update {
-            it.copy(
-                cards = shuffledCards,
+        _state.update { currentState ->
+            currentState.copy(
+                cards = currentState.cards.shuffled(),
                 hasShuffled = true
             )
         }

@@ -1,5 +1,6 @@
 package com.nicnicdev.adoreiasalmas.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -47,12 +49,14 @@ fun HomeScreen(
         onShuffleClick = { viewModel.onShuffleCards() }
     )
 }
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     state: HomeState,
     onShuffleClick: () -> Unit
 ) {
+    val visibleCards = state.cards.take(35)
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -130,7 +134,7 @@ fun HomeContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 75.dp)
+                        .padding(top = 70.dp)
                 ){
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(7),
@@ -138,11 +142,15 @@ fun HomeContent(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(state.cards) { card ->
+                        itemsIndexed(
+                            items = visibleCards,
+                            key = {_, card -> card.id}
+                        ) {_, card ->
                             Image(
-                                painter = painterResource(id = card),
+                                painter = painterResource(id = card.imageRes),
                                 contentDescription = null,
                                 modifier = Modifier
+                                    .animateItemPlacement()
                                     .aspectRatio(0.7f)
                                     .fillMaxWidth(),
                                 contentScale = ContentScale.Crop
@@ -162,8 +170,12 @@ fun HomeContent(
 fun HomeContentPreview() {
     HomeContent(
         state = HomeState(
-            cards = List(35) { R.drawable.conselhopretovelho_split_41 },
-            hasShuffled = false
+            cards = List(35) {
+                CardUiModel(
+                    id = it,
+                    imageRes = R.drawable.conselhopretovelho_split_41
+        )
+            }
         ),
         onShuffleClick = {}
     )
