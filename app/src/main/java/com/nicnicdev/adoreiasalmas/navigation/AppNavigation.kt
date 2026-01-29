@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.nicnicdev.adoreiasalmas.home.HomeScreen
 import com.nicnicdev.adoreiasalmas.login.LoginScreen
 import com.nicnicdev.adoreiasalmas.login.LoginViewModel
 import com.nicnicdev.adoreiasalmas.register.RegisterScreen
@@ -31,6 +32,11 @@ fun AppNavigation() {
                 onCreateAccountClick = {
                     // navega para rota
                     navController.navigate("register") // vai para tela de cadastro
+                },
+                onLoginSuccess = {
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
                 }
             )
         }
@@ -46,6 +52,9 @@ fun AppNavigation() {
                     }
                 }
             )
+        }
+        composable("home") {
+            HomeScreen()
         }
     }
 }

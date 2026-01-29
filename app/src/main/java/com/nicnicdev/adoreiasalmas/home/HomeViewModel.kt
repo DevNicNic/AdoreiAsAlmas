@@ -1,6 +1,7 @@
 package com.nicnicdev.adoreiasalmas.home
 import androidx.lifecycle.ViewModel
 import com.nicnicdev.adoreiasalmas.R
+import com.nicnicdev.adoreiasalmas.card.CardUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

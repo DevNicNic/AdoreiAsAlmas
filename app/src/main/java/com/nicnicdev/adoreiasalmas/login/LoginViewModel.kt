@@ -70,7 +70,10 @@ class LoginViewModel : ViewModel() {
             )
                 .addOnSuccessListener {
                     _state.update {
-                        it.copy(isLoading = false)
+                        it.copy(
+                            isLoading = false,
+                            loginSuccess = true
+                        )
                     }
                 }
                 .addOnFailureListener{ exception ->
