@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -18,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -34,15 +38,15 @@ import com.nicnicdev.adoreiasalmas.R
 
 @Composable
 fun CardResultScreen(
-    card: CardUiModel,
+    cardId: Int,
     onBackToHome: () -> Unit,
     onExitApp: () -> Unit,
     viewModel: CardResultViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(card) {
-        viewModel.setSelectedCard(card)
+    LaunchedEffect(cardId) {
+        viewModel.loadCard(cardId)
     }
 
     CardResultContent(
@@ -58,6 +62,7 @@ fun CardResultContent(
     onBackToHome: () -> Unit,
     onExitApp: () -> Unit
 ) {
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         //  FUNDO FIXO DA TELA (a carta base do app)
@@ -108,7 +113,9 @@ fun CardResultContent(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .height(350.dp)
+                    .fillMaxWidth(0.85f)
+                    .fillMaxHeight(0.8f),
+                contentScale = ContentScale.Fit
             )
         }
 
@@ -157,8 +164,8 @@ fun CardResultContentPreview() {
     CardResultContent(
         state = CardResultState(
             selectedCard = CardUiModel(
-                id = 1,
-                imageRes = R.drawable.conselhopretovelho_split_41
+                id = 10,
+                imageRes = R.drawable.conselhopretovelho_split10
             )
         ),
         onBackToHome = {},

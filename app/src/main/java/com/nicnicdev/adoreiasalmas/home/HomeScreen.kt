@@ -3,6 +3,7 @@ package com.nicnicdev.adoreiasalmas.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,23 +38,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nicnicdev.adoreiasalmas.R
+import com.nicnicdev.adoreiasalmas.card.CardUiModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = viewModel(),
+    onCardClick: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
     HomeContent(
         state = state,
-        onShuffleClick = { viewModel.onShuffleCards() }
+        onShuffleClick = { viewModel.onShuffleCards() },
+        onCardClick = { card ->
+            onCardClick(card.id)
+        }
+
     )
+
 }
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     state: HomeState,
-    onShuffleClick: () -> Unit
+    onShuffleClick: () -> Unit,
+    onCardClick: (CardUiModel) -> Unit
 ) {
     val visibleCards = state.cards.take(35)
 
@@ -151,10 +161,14 @@ fun HomeContent(
                                 modifier = Modifier
                                     .animateItemPlacement()
                                     .aspectRatio(0.7f)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onCardClick(card)
+                                    },
                                 contentScale = ContentScale.Crop
                             )
                         }
+
                     }
 
                 }
@@ -176,6 +190,7 @@ fun HomeContentPreview() {
                 )
             }
         ),
-        onShuffleClick = {}
+        onShuffleClick = {},
+        onCardClick = {}
     )
 }
