@@ -48,6 +48,7 @@ fun LoginScreen(
     // aqui a tela recebe o ViewModel responsavel pela lógica do login
     loginViewModel: LoginViewModel = viewModel(),
     onCreateAccountClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
     //aqui pegamos o estado atual da tela (email, senha, loading, erro )
@@ -66,6 +67,7 @@ fun LoginScreen(
         onEmailChange = loginViewModel::onEmailChange,
         onPasswordChange = loginViewModel::onPasswordChange,
         onLoginClick = loginViewModel::onLoginClick,
+        onForgotPasswordClick= onForgotPasswordClick,
         onCreateAccountClick = onCreateAccountClick // passa pro conteudo
     )
 
@@ -77,7 +79,8 @@ fun LoginContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
-    onCreateAccountClick: () -> Unit
+    onCreateAccountClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit
 ) {
 
 
@@ -243,7 +246,7 @@ fun LoginContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            // TODO: navegar para tela de recuperação de senha
+                            onForgotPasswordClick()
                         },
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium.copy(
@@ -306,6 +309,7 @@ fun LoginScreenPreview() {
         onEmailChange = {},
         onPasswordChange = {},
         onLoginClick = {},
-        onCreateAccountClick = {}
+        onCreateAccountClick = {},
+        onForgotPasswordClick = {}
     )
 }

@@ -1,6 +1,5 @@
 package com.nicnicdev.adoreiasalmas.home
 
-import androidx.compose.material3.CardDefaults
 import androidx.lifecycle.ViewModel
 import com.nicnicdev.adoreiasalmas.R
 import com.nicnicdev.adoreiasalmas.card.CardDataSource
@@ -8,15 +7,20 @@ import com.nicnicdev.adoreiasalmas.card.CardUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeViewModel : ViewModel() {
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state
 
-     val allCards = CardDataSource.allCards
+    val allCards = CardDataSource.allCards
 
     init {
         loadBackCards()
+        loadUserName()
     }
 
     private fun loadBackCards() {
@@ -51,4 +55,17 @@ class HomeViewModel : ViewModel() {
         }
 
     }
+
+    private fun loadUserName() {
+
+        val userName = auth.currentUser?.displayName ?: "Usuário"
+
+        _state.update { currentState ->
+            currentState.copy(
+                userName = userName
+            )
+        }
+    }
+
+
 }

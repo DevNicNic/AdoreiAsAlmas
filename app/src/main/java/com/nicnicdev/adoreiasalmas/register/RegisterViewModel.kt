@@ -1,12 +1,11 @@
 package com.nicnicdev.adoreiasalmas.register
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class RegisterViewModel : ViewModel() {
 
@@ -23,17 +22,20 @@ class RegisterViewModel : ViewModel() {
 
     fun onEmailChange(email: String) {
         _state.update {
-            it.copy(email = email, errorMessage = null) }
+            it.copy(email = email, errorMessage = null)
+        }
     }
 
     fun onPasswordChange(password: String) {
         _state.update {
-            it.copy(password = password, errorMessage = null) }
+            it.copy(password = password, errorMessage = null)
+        }
     }
 
     fun onConfirmPasswordChange(confirmPassword: String) {
         _state.update {
-            it.copy(confirmPassword = confirmPassword, errorMessage = null) }
+            it.copy(confirmPassword = confirmPassword, errorMessage = null)
+        }
     }
 
     fun onRegisterClick() {
@@ -61,27 +63,36 @@ class RegisterViewModel : ViewModel() {
             it.copy(isLoading = true, errorMessage = null)
         }
 
-            auth.createUserWithEmailAndPassword(
-                currentState.email,
-                currentState.password
-            )
-                .addOnSuccessListener {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            isSuccess = true // avisa que deu certo
-                        )
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = exception.message ?: "Erro ao cadastrar"
+        auth.createUserWithEmailAndPassword(
+            currentState.email,
+            currentState.password
+        )
+            .addOnSuccessListener {
 
-                        )
+                val profileUpdate = UserProfileChangeRequest.Builder()
+                    .setDisplayName(currentState.name)
+                    .build()
+
+                auth.currentUser?.updateProfile(profileUpdate)
+                    ?.addOnCompleteListener {
+
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                isSuccess = true // avisa que deu certo
+                            )
+                        }
                     }
+            }
+            .addOnFailureListener { exception ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = exception.message ?: "Erro ao cadastrar"
+
+                    )
                 }
-        }
+            }
     }
+}
 

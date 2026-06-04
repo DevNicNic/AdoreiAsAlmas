@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,6 +56,7 @@ fun HomeScreen(
     )
 
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
@@ -95,7 +95,7 @@ fun HomeContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
 
-            ) {
+                ) {
                 Spacer(modifier = Modifier.height(60.dp))
                 Text(
                     text = "Seja bem vinda(o) ${state.userName}, faça 3 respirações profundas, " +
@@ -144,7 +144,7 @@ fun HomeContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = 70.dp)
-                ){
+                ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(7),
                         contentPadding = PaddingValues(8.dp),
@@ -153,8 +153,8 @@ fun HomeContent(
                     ) {
                         itemsIndexed(
                             items = visibleCards,
-                            key = {_, card -> card.id}
-                        ) {_, card ->
+                            key = { _, card -> card.id }
+                        ) { _, card ->
                             Image(
                                 painter = painterResource(id = card.imageRes),
                                 contentDescription = null,

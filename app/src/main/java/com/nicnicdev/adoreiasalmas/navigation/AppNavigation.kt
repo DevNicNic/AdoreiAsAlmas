@@ -13,11 +13,13 @@ import com.nicnicdev.adoreiasalmas.login.LoginScreen
 import com.nicnicdev.adoreiasalmas.login.LoginViewModel
 import com.nicnicdev.adoreiasalmas.register.RegisterScreen
 import com.nicnicdev.adoreiasalmas.register.RegisterViewModel
+import com.nicnicdev.adoreiasalmas.resetpassword.ResetPasswordScreen
 
 const val LOGIN_ROUTE = "login"
 const val REGISTER_ROUTE = "register"
 const val HOME_ROUTE = "home"
 const val CARD_RESULT_ROUTE = "card_result"
+const val RESET_PASSWORD_ROUTE = "reset_password"
 
 @Composable
 fun AppNavigation() {
@@ -40,6 +42,9 @@ fun AppNavigation() {
                     // navega para rota
                     navController.navigate("register") // vai para tela de cadastro
                 },
+                onForgotPasswordClick =  {
+                        navController.navigate(RESET_PASSWORD_ROUTE)
+            },
                 onLoginSuccess = {
                     navController.navigate("home") {
                         popUpTo("login") { inclusive = true }
@@ -60,6 +65,10 @@ fun AppNavigation() {
                     }
                 }
             )
+        }
+        // RESET PASSWORD
+        composable(RESET_PASSWORD_ROUTE) {
+            ResetPasswordScreen()
         }
         //HOME
         composable("home") {
