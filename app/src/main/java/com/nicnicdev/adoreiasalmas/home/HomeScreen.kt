@@ -96,7 +96,7 @@ fun HomeContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(40.dp))
                 Text(
                     text = "Seja bem vinda(o) ${state.userName}, faça 3 respirações profundas, " +
                             "concentre-se na situação ou em seu momento, o qual deseja um conselho. " +
@@ -143,7 +143,7 @@ fun HomeContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 70.dp)
+                        .padding(top = 30.dp)
                 ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(7),

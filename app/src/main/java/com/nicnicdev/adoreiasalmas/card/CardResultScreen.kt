@@ -112,7 +112,7 @@ fun CardResultContent(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth(0.85f)
-                    .fillMaxHeight(0.8f),
+                    .fillMaxHeight(0.68f),
                 contentScale = ContentScale.Fit
             )
         }
@@ -121,7 +121,7 @@ fun CardResultContent(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(24.dp)
+                .padding(32.dp)
         ) {
             Button(
                 onClick = onBackToHome,
